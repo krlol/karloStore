@@ -1,8 +1,10 @@
 import React from 'react';
-import { Image, Text, View } from 'react-native';
+import { Image, Text, View, TouchableOpacity } from 'react-native';
 import SkeletonContent from 'react-native-skeleton-content-nonexpo';
 import { ICustomViewStyle } from 'react-native-skeleton-content-nonexpo/lib/Constants';
 import { Product } from 'src/data/products';
+import { formatPriceNumber } from 'utils/helpers';
+import { Strings } from 'utils/strings';
 import styles from './styles';
 
 export interface ProductCardProps {
@@ -18,8 +20,16 @@ export const LoadingProductCard = () => {
 
 export default function ProductCard({product, style}:ProductCardProps) {
   return (
-    <View style={[styles.container, style]}>
+    <TouchableOpacity style={[styles.container, style]}>
       <Image style={styles.image} source={{uri:product.image}} />
-    </View>
+      <View style={styles.productContent}>
+        <View style={styles.circle}><Text style={styles.iconText}>{Strings.ShoppingEmoji}</Text></View>
+        <View style={styles.productInfo}>
+          <Text numberOfLines={2} style={styles.productTitle}>{product.title}</Text>
+          <Text numberOfLines={1} style={styles.productCategory}>{product.category.category}</Text>
+        </View>
+        <Text style={styles.productPrice}>{formatPriceNumber(product.price)}</Text>
+      </View>
+    </TouchableOpacity>
   )
 }

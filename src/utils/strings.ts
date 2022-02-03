@@ -3,4 +3,5 @@ export const Strings = {
     Detail: 'Detail',
     Screen: 'Screen',
     Sample: 'Sample',
+    SearchPlaceHolder: 'Buscar productos'
 }

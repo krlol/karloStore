@@ -48,18 +48,6 @@ export default function HomeScreen() {
       </View>
     }
 
-    if(index < currentProductList.length && index >= currentProductList.length - 3){
-      if(index != currentProductList.length - 3) return null;
-      const finalIndex = currentProductList.length - 3;
-      return <View key={calculateKey} style={styles.productRow}>
-        {currentProductList[finalIndex - 2] && <ProductCard style={styles.largeProductCard} product={currentProductList[finalIndex - 2]}/>}
-        <View style={styles.productColumn}>
-          {currentProductList[finalIndex] && <ProductCard product={currentProductList[finalIndex]}/>}
-          {currentProductList[finalIndex - 1] && <ProductCard product={currentProductList[finalIndex - 1]}/>}
-        </View>
-      </View>
-    }
-
     if(index > 2){
       return <View key={calculateKey} style={styles.productRow}>
         {currentProductList[index] && index % 2 === 0 && <ProductCard product={currentProductList[index]}/>}

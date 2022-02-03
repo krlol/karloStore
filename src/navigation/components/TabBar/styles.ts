@@ -1,9 +1,10 @@
 import { StyleSheet } from 'react-native';
+import { Colors } from 'utils/colors';
 
 const styles = StyleSheet.create({
     container: {
         flexDirection: 'row',
-        borderRadius: 40,
+        borderRadius: 30,
         marginHorizontal: 10,
         marginTop: 10,
         marginBottom: 20,
@@ -15,14 +16,16 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.4,
         shadowRadius: 3.84,
         elevation: 2,
+        justifyContent:'space-between',
+        borderColor: Colors.PrimaryColor,
+        borderWidth: 1
       },
       tabButton: {
         justifyContent: 'flex-end',
         alignItems: 'center',
-      },
-      tabLabel: {
-        fontSize: 12,
-        fontWeight: '700',
+        backgroundColor: Colors.SecondaryColor,
+        borderRadius: 25,
+        padding: 5,
       },
 })
 

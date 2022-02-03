@@ -1,5 +1,6 @@
 import React from 'react'
-import { SafeAreaView, Text, TouchableOpacity, View, StyleSheet } from 'react-native'
+import { SafeAreaView, TouchableOpacity, View } from 'react-native'
+import { Colors } from 'utils/colors'
 import styles from './styles'
 
 const TabBar = ({ state, descriptors, navigation }: any) => {
@@ -8,12 +9,6 @@ const TabBar = ({ state, descriptors, navigation }: any) => {
       <View style={styles.container}>
         {state.routes.map((route: any, index: any) => {
           const { options } = descriptors[route.key]
-          const label =
-            options.tabBarLabel !== undefined
-              ? options.tabBarLabel
-              : options.title !== undefined
-              ? options.title
-              : route.name
 
           const isFocused = state.index === index
 
@@ -35,11 +30,9 @@ const TabBar = ({ state, descriptors, navigation }: any) => {
               accessibilityLabel={options.tabBarAccessibilityLabel}
               testID={options.tabBarTestID}
               onPress={onPress}
-              style={styles.tabButton}
+              style={!isFocused ? styles.tabButton : [styles.tabButton, {backgroundColor:Colors.FourthColor}]}
               key={route.name}>
-              {options.tabBarIcon && options.tabBarIcon({ focused: isFocused, size: 20 })}
-              <Text style={[styles.tabLabel]}>{label}</Text>
-            </TouchableOpacity>
+              {options.tabBarIcon && options.tabBarIcon({ focused: isFocused, size: 20 })}</TouchableOpacity>
           )
         })}
       </View>

@@ -3,6 +3,7 @@ import { createStackNavigator } from '@react-navigation/stack'
 import React from 'react'
 import HomeScreen from 'screens/Home'
 import ProductDetailSCreen from 'screens/ProductDetail'
+import { Strings } from 'utils/strings'
 import NavTextIcon from './components/NavTextIcon'
 import TabBar from './components/TabBar'
 import { HomeRoutes } from './routes'
@@ -19,15 +20,16 @@ function HomeScreens() {
     )
 }
 
-const sampleTabs = [1, 2, 3, 4];
+const sampleTabs = ['🏠', '🛍', '💰', '📲'];
 
 const TabNavigator = () => (
     <Tab.Navigator screenOptions={{ headerShown: false }} tabBar={(props: any) => <TabBar {...props} />}>
-      {sampleTabs.map((tabNumber)=><Tab.Screen
-        name={HomeRoutes.HomeInner}
+      {sampleTabs.map((tabNumber, index)=><Tab.Screen
+        name={index === 0 ? HomeRoutes.HomeInner : `${Strings.Sample}-${index}`}
         component={HomeScreens}
         options={{
           tabBarTestID: `tab-home-${tabNumber}`,
+          tabBarLabel: '',
           tabBarIcon: ({ color }: any) => <NavTextIcon key={`tab-home-${tabNumber}`} iconValue={tabNumber}/>,
         }}
       />)}

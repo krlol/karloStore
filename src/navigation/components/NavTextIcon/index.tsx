@@ -3,7 +3,7 @@ import { Text, View } from 'react-native';
 import styles from './styles';
 
 interface TextIconProps {
-    iconValue: number;
+    iconValue: string;
 }
 
 export default function NavTextIcon(props:TextIconProps) {

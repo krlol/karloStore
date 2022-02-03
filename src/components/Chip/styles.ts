@@ -5,6 +5,9 @@ const styles = StyleSheet.create({
         paddingHorizontal: 8,
         paddingVertical: 4,
         borderRadius: 8,
+        marginRight: 10,
+        flex:1,
+        maxHeight: 30,
     },
     label:{
         textAlign: 'center',

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Text, View } from 'react-native';
-import { Strings } from 'utils/strings';
+import SkeletonContent from 'react-native-skeleton-content-nonexpo';
+import { ICustomViewStyle } from 'react-native-skeleton-content-nonexpo/lib/Constants';
 import styles from './styles';
 
 export interface ChipProps {
@@ -8,6 +9,12 @@ export interface ChipProps {
   title:string
   style?: object
   textStyle?: object
+}
+
+const loadingChipLayout:ICustomViewStyle[] = [{width:100,height:30,marginRight:10,borderRadius:10}];
+
+export const LoadingChip = () => {
+  return <SkeletonContent layout={loadingChipLayout} isLoading={true} />
 }
 
 export default function Chip(props:ChipProps) {

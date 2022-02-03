@@ -18,13 +18,13 @@ export interface Product {
 }
 
 export interface ProductsState {
-    productsList: Product[]
+    defaultProductsList: Product[]
     loadingProducts: boolean
 }
 
 const initialState: ProductsState = {
-  productsList: [],
-  loadingProducts: false
+    defaultProductsList: [],
+    loadingProducts: false
 }
 
 //Redux toolkit slice. A simplified version of redux
@@ -40,7 +40,7 @@ export const productsSlice = createSlice({
           })
           builder.addCase(fetchDefaultProductsList.fulfilled, (state, action) => {
             state.loadingProducts = false
-            state.productsList = action.payload?.productsList || [];
+            state.defaultProductsList = action.payload?.defaultProductsList || [];
           })
           builder.addCase(fetchDefaultProductsList.rejected, state => {
             state.loadingProducts = false
@@ -69,7 +69,7 @@ const fetchDefaultProductsList = createAsyncThunk('products/fetchDefaultProducts
             })
         })
         
-        return { productsList: products, loadingProducts: false }
+        return { defaultProductsList: products, loadingProducts: false }
     }catch(e){
         console.error(`Err getting products: ${e}`)
     }

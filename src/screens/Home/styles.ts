@@ -1,7 +1,7 @@
 import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
-    scrollView:{
+    container:{
         paddingTop: 25,
         marginHorizontal: 15,
     },
@@ -11,6 +11,10 @@ const styles = StyleSheet.create({
     chipsContainer:{
         flexDirection: 'row',
         marginVertical: 10,
+    },
+    productsContainer:{
+        flexDirection: 'row',
+
     }
 })
 

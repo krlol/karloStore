@@ -1,4 +1,5 @@
-export const ProductDetail = {
+export const HomeRoutes = {
     Home: 'Home',
-    ProductDetail: 'ProductDetail'
+    ProductDetail: 'ProductDetail',
+    HomeInner: 'HomeInner',
 }

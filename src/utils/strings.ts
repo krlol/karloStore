@@ -3,6 +3,6 @@ export const Strings = {
     Detail: 'Detail',
     Screen: 'Screen',
     Sample: 'Sample',
-    SearchPlaceHolder: 'Buscar productos',
+    SearchPlaceHolder: 'Buscar productos en toda la tienda',
     ShoppingEmoji: '🛍',
 }

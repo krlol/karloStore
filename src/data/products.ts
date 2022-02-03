@@ -7,7 +7,7 @@ import { Constants } from 'utils/constants'
 import { Endpoints } from 'utils/endpoints'
 import { Category, parseCategory } from './categories'
 
-//Interfaces / Models / Redux Initial State
+//Interfaces / Models / Redux Initial State / helpers
 export interface Product {
     id: number
     title:string
@@ -25,6 +25,21 @@ export interface ProductsState {
 const initialState: ProductsState = {
     defaultProductsList: [],
     loadingProducts: false
+}
+
+const parseProducts = (hardResult:any[]):Product[] => {
+    var products:Product[] = []
+    hardResult.forEach((hardProduct)=>{
+        products.push({
+            id: hardProduct.id,
+            title: hardProduct.title,
+            price: hardProduct.price,
+            description: hardProduct.description,
+            category: parseCategory(hardProduct.category),
+            image: hardProduct.image,
+        })
+    })
+    return products;
 }
 
 //Redux toolkit slice. A simplified version of redux
@@ -56,20 +71,7 @@ const fetchDefaultProductsList = createAsyncThunk('products/fetchDefaultProducts
                 limit: Config.DEFAULT_PRODUCT_LIMIT
             }
         }) as any[];
-        var products:Product[] = []
-
-        defaultProductsResult.forEach((hardProduct)=>{
-            products.push({
-                id: hardProduct.id,
-                title: hardProduct.title,
-                price: hardProduct.price,
-                description: hardProduct.description,
-                category: parseCategory(hardProduct.category),
-                image: hardProduct.image,
-            })
-        })
-        
-        return { defaultProductsList: products, loadingProducts: false }
+        return { defaultProductsList: parseProducts(defaultProductsResult), loadingProducts: false }
     }catch(e){
         console.error(`Err getting products: ${e}`)
     }
@@ -84,4 +86,19 @@ export function useProductsActions() {
     }
     const refActions = useRef(bindActionCreators(actions, dispatch))
     return refActions.current
+}
+
+export const searchProduct = (searchString:string, products:Product[]):Product[] => {
+    //I didnt see a search functionality on FAKE API
+    return products.filter((productToFilter)=> productToFilter.title.toLowerCase().includes(searchString.toLowerCase()) || productToFilter.description.toLowerCase().includes(searchString.toLowerCase()) || productToFilter.category.category.toLowerCase().includes(searchString.toLowerCase()))
+}
+
+export const requestProductsByCategoryId = (categoryId:string):Promise<Product[]> => {
+    return new Promise((resolve,reject)=>{
+        return FakeApiProvider.get(Endpoints.productFromCategory(categoryId)).then((categoryProducts)=>{
+            return resolve(parseProducts(categoryProducts))
+        }).catch((e)=>{
+            return reject(e)
+        })
+    })
 }

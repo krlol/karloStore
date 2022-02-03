@@ -2,8 +2,8 @@ import SearchBar from 'components/SearchBar';
 import React, { useEffect, useState } from 'react';
 import { FlatList, View } from 'react-native';
 import { useAppSelector } from 'redux/hooks';
-import { useCategoriesActions } from '../../data/categories';
-import { Product, useProductsActions } from '../../data/products';
+import { Category, useCategoriesActions } from '../../data/categories';
+import { Product, requestProductsByCategoryId, searchProduct, useProductsActions } from '../../data/products';
 import { Strings } from 'utils/strings';
 import styles from './styles';
 import Chip, { LoadingChip } from 'components/Chip';
@@ -17,6 +17,7 @@ export default function HomeScreen() {
 
   const [searchValue, setSearchValue] = useState('');
   const [loading, setLoading] = useState<boolean>(false);
+  const [selectedCategory, setSelectedCategory] = useState<string>('');
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
   
   const CategoriesActions = useCategoriesActions();
@@ -25,14 +26,28 @@ export default function HomeScreen() {
   const { categoriesList, loadingCategories } = useAppSelector(state => state.categories);
   const { defaultProductsList, loadingProducts } = useAppSelector(state => state.products);
   
-  
-
   let currentProductList:Product[] = filteredProducts.length > 0 ? filteredProducts : defaultProductsList;
 
   useEffect(()=>{
     CategoriesActions.fetchAllCategories();
     ProductsActions.fetchDefaultProductsList();
   },[])
+
+  useEffect(()=>{
+    if(searchValue.length === 0){ setFilteredProducts([]) }
+  },[searchValue])
+
+  useEffect(()=>{
+    if(selectedCategory){
+      setLoading(true);
+      requestProductsByCategoryId(selectedCategory).then((results)=>{
+        setFilteredProducts(results);
+        setLoading(false);
+      }).catch((e)=>{
+        console.error(e)
+      })
+    }
+  },[selectedCategory])
 
   const renderMasonryRow = ({item,index}:{item:Product,index:number}) => {
 
@@ -58,19 +73,22 @@ export default function HomeScreen() {
     return null;
   }
 
-
   return (<SafeAreaView style={styles.container}>
     <View style={styles.headerContainer}>
       <SearchBar
         placeholder={Strings.SearchPlaceHolder}
         value={searchValue}
-        onChangeText={(text)=>setSearchValue(text)}
-        onSubmit={()=>{}}
+        onChangeText={(text)=>{
+          setSearchValue(text)
+          setFilteredProducts(searchProduct(text,defaultProductsList))
+        }}
+        onSubmit={()=>{ setFilteredProducts(searchProduct(searchValue,defaultProductsList)) }}
+        editable={currentProductList.length > 0}
       />
     </View>
     <View style={styles.chipsContainer}>
       {loadingCategories ? loadingChipSkeletons : null}
-      {categoriesList.length > 0 ? categoriesList.map((category,index)=><Chip key={`chip_${category}_${index}`} backgroundColor={Colors.FourthColor} title={`${category.category}`}/>) : null}
+      {categoriesList.length > 0 ? categoriesList.map((category,index)=><Chip onPress={()=>{setSelectedCategory(category.id)}} key={`chip_${category}_${index}`} backgroundColor={Colors.FourthColor} title={`${category.category}`}/>) : null}
     </View>
     {loading || loadingProducts ? loadingCardsSkeletons : <FlatList
       renderItem={renderMasonryRow}

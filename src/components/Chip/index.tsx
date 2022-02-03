@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View } from 'react-native';
+import { Text, View, TouchableOpacity } from 'react-native';
 import SkeletonContent from 'react-native-skeleton-content-nonexpo';
 import { ICustomViewStyle } from 'react-native-skeleton-content-nonexpo/lib/Constants';
 import styles from './styles';
@@ -9,6 +9,7 @@ export interface ChipProps {
   title:string
   style?: object
   textStyle?: object
+  onPress?:()=>void
 }
 
 const loadingChipLayout:ICustomViewStyle[] = [{width:100,height:30,marginRight:10,borderRadius:10}];
@@ -19,8 +20,8 @@ export const LoadingChip = () => {
 
 export default function Chip(props:ChipProps) {
   return (
-    <View style={[styles.chip, props.style, {backgroundColor:props.backgroundColor}]}>
+    <TouchableOpacity onPress={props.onPress} style={[styles.chip, props.style, {backgroundColor:props.backgroundColor}]}>
       <Text style={[styles.label,props.textStyle]}>{props.title}</Text>
-    </View>
+    </TouchableOpacity>
   )
 }

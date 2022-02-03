@@ -24,6 +24,9 @@ const styles = StyleSheet.create({
     productColumn:{
         flexDirection:'column', 
         flex: 1
+    },
+    largeProductCard:{
+        flex:1
     }
 })
 

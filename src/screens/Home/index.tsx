@@ -10,6 +10,7 @@ import Chip, { LoadingChip } from 'components/Chip';
 import { Colors } from 'utils/colors';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import ProductCard, { LoadingProductCard } from 'components/ProductCard';
+import { useNavigation } from '@react-navigation/native';
 const loadingChipSkeletons:React.ReactNode = [<LoadingChip key="lc1"/>,<LoadingChip key="lc2"/>,<LoadingChip key="lc3"/>];
 const loadingCardsSkeletons:React.ReactNode = [<View style={styles.productRow}><LoadingProductCard key="lp1"/><LoadingProductCard key="lp2"/></View>,<View style={styles.productRow}><LoadingProductCard key="lp3"/><LoadingProductCard key="lp4"/></View>]
 
@@ -19,6 +20,7 @@ export default function HomeScreen() {
   const [loading, setLoading] = useState<boolean>(false);
   const [selectedCategory, setSelectedCategory] = useState<string>('');
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
+  const navigation = useNavigation();
   
   const CategoriesActions = useCategoriesActions();
   const ProductsActions = useProductsActions();
@@ -56,17 +58,17 @@ export default function HomeScreen() {
     if(index === 0){
       return <View key={calculateKey} style={styles.productRow}>
         <View style={styles.productColumn}>
-          {currentProductList[0] && <ProductCard product={currentProductList[0]}/>}
-          {currentProductList[1] && <ProductCard product={currentProductList[1]}/>}
+          {currentProductList[0] && <ProductCard navigation={navigation} product={currentProductList[0]}/>}
+          {currentProductList[1] && <ProductCard navigation={navigation} product={currentProductList[1]}/>}
         </View>
-        {currentProductList[2] && <ProductCard style={styles.largeProductCard} product={currentProductList[2]}/>}
+        {currentProductList[2] && <ProductCard navigation={navigation} style={styles.largeProductCard} product={currentProductList[2]}/>}
       </View>
     }
 
     if(index > 2){
       return <View key={calculateKey} style={styles.productRow}>
-        {currentProductList[index] && index % 2 === 0 && <ProductCard product={currentProductList[index]}/>}
-        {currentProductList[index + 1] && index % 2 === 0 && <ProductCard product={currentProductList[index + 1]}/>}
+        {currentProductList[index] && index % 2 === 0 && <ProductCard navigation={navigation} product={currentProductList[index]}/>}
+        {currentProductList[index + 1] && index % 2 === 0 && <ProductCard navigation={navigation} product={currentProductList[index + 1]}/>}
       </View>
     }
     

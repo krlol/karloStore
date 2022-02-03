@@ -1,3 +1,5 @@
+import { useLinkProps } from '@react-navigation/native';
+import { HomeRoutes } from 'navigation/routes';
 import React from 'react';
 import { Image, Text, View, TouchableOpacity } from 'react-native';
 import SkeletonContent from 'react-native-skeleton-content-nonexpo';
@@ -10,6 +12,7 @@ import styles from './styles';
 export interface ProductCardProps {
   product: Product
   style?: object
+  navigation?:any
 }
 
 const loadingProductLayout:ICustomViewStyle[] = [{height:150, width:`95%`, margin:5 ,borderTopRightRadius:20, borderTopLeftRadius:20},{width:'60%',height:30, marginBottom:10,marginLeft: 5}];
@@ -18,9 +21,9 @@ export const LoadingProductCard = () => {
   return <SkeletonContent containerStyle={[styles.container]} layout={loadingProductLayout} isLoading={true} />
 }
 
-export default function ProductCard({product, style}:ProductCardProps) {
+export default function ProductCard({product, style, navigation}:ProductCardProps) {
   return (
-    <TouchableOpacity style={[styles.container, style]}>
+    <TouchableOpacity onPress={()=>{try{ navigation && navigation.navigate(HomeRoutes.ProductDetail,{ productId:product.id }) }catch(e){console.error(e)}}} style={[styles.container, style]}>
       <Image style={styles.image} source={{uri:product.image}} />
       <View style={styles.productContent}>
         <View style={styles.circle}><Text style={styles.iconText}>{Strings.ShoppingEmoji}</Text></View>

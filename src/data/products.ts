@@ -102,3 +102,13 @@ export const requestProductsByCategoryId = (categoryId:string):Promise<Product[]
         })
     })
 }
+
+export const getSingleProduct = (productId:number):Promise<Product> => {
+    return new Promise((resolve,reject)=>{
+        return FakeApiProvider.get(Endpoints.getProduct(productId)).then((productResult)=>{
+            return resolve(parseProducts([productResult])[0])
+        }).catch((e)=>{
+            return reject(e)
+        })
+    })
+}

@@ -5,4 +5,5 @@ export const Strings = {
     Sample: 'Sample',
     SearchPlaceHolder: 'Buscar productos en toda la tienda',
     ShoppingEmoji: '🛍',
+    Categories: 'Categorías'
 }

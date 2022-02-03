@@ -6,4 +6,8 @@ export const Endpoints = {
     productFromCategory:(categoryId:string)=>{
         return `/products/category/${categoryId}`
     },
+    getProduct:(productId:number)=>{
+        return `/products/${productId}`
+
+    },
 }

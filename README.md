@@ -13,3 +13,5 @@ https://fakestoreapi.com/docs
 - React Native Skeleton Loader
 - Redux Toolkit
 - React Native SVG
+- Axios
+- React Native Config

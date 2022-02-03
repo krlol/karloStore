@@ -1,3 +1,4 @@
 export const Endpoints = {
-    getProductsCategories: '/products/categories'
+    getProductsCategories: '/products/categories',
+    getProducts:'/products'
 }

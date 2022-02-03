@@ -31,20 +31,22 @@ export default function HomeScreen() {
   const renderMasonryRow = ({item,index}:{item:Product,index:number}) => {
 
     if(index === 0){
-      return <View style={{flexDirection:'row'}}>
-        <View style={{flexDirection:'column', flex: 1}}>
+      return <View style={styles.productRow}>
+        <View style={styles.productColumn}>
           {currentProductList[0] && <ProductCard product={currentProductList[0]}/>}
           {currentProductList[1] && <ProductCard product={currentProductList[1]}/>}
         </View>
-        {currentProductList[2] && <ProductCard style={{flex:1}} product={currentProductList[2]}/>}
+        {currentProductList[2] && <ProductCard style={styles.largeProductCard} product={currentProductList[2]}/>}
       </View>
     }
+
     if(index > 2){
-      return <View style={{flexDirection:'row'}}>
+      return <View style={styles.productRow}>
         {currentProductList[index] && index % 2 === 0 && <ProductCard product={currentProductList[index]}/>}
         {currentProductList[index + 1] && index % 2 === 0 && <ProductCard product={currentProductList[index + 1]}/>}
       </View>
     }
+    
     return null;
   }
 
@@ -65,6 +67,7 @@ export default function HomeScreen() {
     <FlatList
       renderItem={renderMasonryRow}
       data={currentProductList}
+      style={styles.scrollView}
     />
     
   </SafeAreaView>)

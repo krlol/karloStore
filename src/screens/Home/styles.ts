@@ -14,7 +14,16 @@ const styles = StyleSheet.create({
     },
     productsContainer:{
         flexDirection: 'row',
-
+    },
+    scrollView:{
+        marginBottom:80
+    },
+    productRow:{
+        flexDirection:'row'
+    },
+    productColumn:{
+        flexDirection:'column', 
+        flex: 1
     }
 })
 

@@ -21,16 +21,31 @@ export default function HomeScreen() {
   const { defaultProductsList, loadingProducts } = useAppSelector(state => state.products);
   const [ filteredProducts, setFilteredProducts] = useState<Product[]>([]);
 
+  let currentProductList:Product[] = filteredProducts.length > 0 ? filteredProducts : defaultProductsList;
+
   useEffect(()=>{
     CategoriesActions.fetchAllCategories();
     ProductsActions.fetchDefaultProductsList();
   },[])
 
   const renderMasonryRow = ({item,index}:{item:Product,index:number}) => {
-    return (<View style={{flexDirection:'row'}}>
-      <ProductCard product={item}/>
-      <ProductCard product={item}/>
-    </View>)
+
+    if(index === 0){
+      return <View style={{flexDirection:'row'}}>
+        <View style={{flexDirection:'column', flex: 1}}>
+          {currentProductList[0] && <ProductCard product={currentProductList[0]}/>}
+          {currentProductList[1] && <ProductCard product={currentProductList[1]}/>}
+        </View>
+        {currentProductList[2] && <ProductCard style={{flex:1}} product={currentProductList[2]}/>}
+      </View>
+    }
+    if(index > 2){
+      return <View style={{flexDirection:'row'}}>
+        {currentProductList[index] && index % 2 === 0 && <ProductCard product={currentProductList[index]}/>}
+        {currentProductList[index + 1] && index % 2 === 0 && <ProductCard product={currentProductList[index + 1]}/>}
+      </View>
+    }
+    return null;
   }
 
 
@@ -49,7 +64,7 @@ export default function HomeScreen() {
     </View>
     <FlatList
       renderItem={renderMasonryRow}
-      data={filteredProducts.length > 0 ? filteredProducts : defaultProductsList}
+      data={currentProductList}
     />
     
   </SafeAreaView>)

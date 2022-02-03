@@ -10,8 +10,8 @@ import Chip, { LoadingChip } from 'components/Chip';
 import { Colors } from 'utils/colors';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import ProductCard, { LoadingProductCard } from 'components/ProductCard';
-const loadingChipSkeletons:React.ReactNode = [<LoadingChip/>,<LoadingChip/>,<LoadingChip/>];
-const loadingCardsSkeletons:React.ReactNode = [<View style={styles.productRow}><LoadingProductCard/><LoadingProductCard/></View>,<View style={styles.productRow}><LoadingProductCard/><LoadingProductCard/></View>]
+const loadingChipSkeletons:React.ReactNode = [<LoadingChip key="lc1"/>,<LoadingChip key="lc2"/>,<LoadingChip key="lc3"/>];
+const loadingCardsSkeletons:React.ReactNode = [<View style={styles.productRow}><LoadingProductCard key="lp1"/><LoadingProductCard key="lp2"/></View>,<View style={styles.productRow}><LoadingProductCard key="lp3"/><LoadingProductCard key="lp4"/></View>]
 
 export default function HomeScreen() {
 
@@ -36,8 +36,10 @@ export default function HomeScreen() {
 
   const renderMasonryRow = ({item,index}:{item:Product,index:number}) => {
 
+    const calculateKey:string = `mansonry_row_${index}`;
+
     if(index === 0){
-      return <View style={styles.productRow}>
+      return <View key={calculateKey} style={styles.productRow}>
         <View style={styles.productColumn}>
           {currentProductList[0] && <ProductCard product={currentProductList[0]}/>}
           {currentProductList[1] && <ProductCard product={currentProductList[1]}/>}
@@ -46,8 +48,20 @@ export default function HomeScreen() {
       </View>
     }
 
+    if(index < currentProductList.length && index >= currentProductList.length - 3){
+      if(index != currentProductList.length - 3) return null;
+      const finalIndex = currentProductList.length - 3;
+      return <View key={calculateKey} style={styles.productRow}>
+        {currentProductList[finalIndex - 2] && <ProductCard style={styles.largeProductCard} product={currentProductList[finalIndex - 2]}/>}
+        <View style={styles.productColumn}>
+          {currentProductList[finalIndex] && <ProductCard product={currentProductList[finalIndex]}/>}
+          {currentProductList[finalIndex - 1] && <ProductCard product={currentProductList[finalIndex - 1]}/>}
+        </View>
+      </View>
+    }
+
     if(index > 2){
-      return <View style={styles.productRow}>
+      return <View key={calculateKey} style={styles.productRow}>
         {currentProductList[index] && index % 2 === 0 && <ProductCard product={currentProductList[index]}/>}
         {currentProductList[index + 1] && index % 2 === 0 && <ProductCard product={currentProductList[index + 1]}/>}
       </View>
@@ -68,7 +82,7 @@ export default function HomeScreen() {
     </View>
     <View style={styles.chipsContainer}>
       {loadingCategories ? loadingChipSkeletons : null}
-      {categoriesList.length > 0 ? categoriesList.map((category)=><Chip backgroundColor={Colors.FourthColor} title={`${category.category}`}/>) : null}
+      {categoriesList.length > 0 ? categoriesList.map((category,index)=><Chip key={`chip_${category}_${index}`} backgroundColor={Colors.FourthColor} title={`${category.category}`}/>) : null}
     </View>
     {loading || loadingProducts ? loadingCardsSkeletons : <FlatList
       renderItem={renderMasonryRow}

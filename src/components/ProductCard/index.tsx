@@ -10,10 +10,10 @@ export interface ProductCardProps {
   style?: object
 }
 
-const loadingProductLayout:ICustomViewStyle[] = [{width:100,height:30,marginRight:10,borderRadius:10}];
+const loadingProductLayout:ICustomViewStyle[] = [{height:150, width:`95%`, margin:5 ,borderTopRightRadius:20, borderTopLeftRadius:20},{width:'60%',height:30, marginBottom:10,marginLeft: 5}];
 
 export const LoadingProductCard = () => {
-  return <SkeletonContent layout={loadingProductLayout} isLoading={true} />
+  return <SkeletonContent containerStyle={[styles.container]} layout={loadingProductLayout} isLoading={true} />
 }
 
 export default function ProductCard({product, style}:ProductCardProps) {

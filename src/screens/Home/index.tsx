@@ -9,17 +9,23 @@ import styles from './styles';
 import Chip, { LoadingChip } from 'components/Chip';
 import { Colors } from 'utils/colors';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import ProductCard from 'components/ProductCard';
+import ProductCard, { LoadingProductCard } from 'components/ProductCard';
 const loadingChipSkeletons:React.ReactNode = [<LoadingChip/>,<LoadingChip/>,<LoadingChip/>];
+const loadingCardsSkeletons:React.ReactNode = [<View style={styles.productRow}><LoadingProductCard/><LoadingProductCard/></View>,<View style={styles.productRow}><LoadingProductCard/><LoadingProductCard/></View>]
 
 export default function HomeScreen() {
 
   const [searchValue, setSearchValue] = useState('');
+  const [loading, setLoading] = useState<boolean>(false);
+  const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
+  
   const CategoriesActions = useCategoriesActions();
   const ProductsActions = useProductsActions();
+
   const { categoriesList, loadingCategories } = useAppSelector(state => state.categories);
   const { defaultProductsList, loadingProducts } = useAppSelector(state => state.products);
-  const [ filteredProducts, setFilteredProducts] = useState<Product[]>([]);
+  
+  
 
   let currentProductList:Product[] = filteredProducts.length > 0 ? filteredProducts : defaultProductsList;
 
@@ -64,11 +70,11 @@ export default function HomeScreen() {
       {loadingCategories ? loadingChipSkeletons : null}
       {categoriesList.length > 0 ? categoriesList.map((category)=><Chip backgroundColor={Colors.FourthColor} title={`${category.category}`}/>) : null}
     </View>
-    <FlatList
+    {loading || loadingProducts ? loadingCardsSkeletons : <FlatList
       renderItem={renderMasonryRow}
       data={currentProductList}
       style={styles.scrollView}
-    />
+    />}
     
   </SafeAreaView>)
 }

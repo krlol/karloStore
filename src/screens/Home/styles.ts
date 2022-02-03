@@ -9,7 +9,8 @@ const styles = StyleSheet.create({
 
     },
     chipsContainer:{
-        
+        flexDirection: 'row',
+        marginVertical: 10,
     }
 })
 
